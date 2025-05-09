@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Putu Handryan Pratama, S.Kom, BIT - Fullstack Developer Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary: #2563eb;
+      --color-secondary: #1e40af;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    .animate-slide-in {
+      animation: slideIn 0.6s ease-out forwards;
+    }
+    .project-card {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .project-card:hover::after {
+      transform: scaleX(1);
+    }
+    .skill-badge {
+      transition: all 0.3s ease;
+    }
+    .skill-badge:hover {
+      transform: scale(1.05);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--color-primary);
+    }
+  </style>
+  <script>
+    // Simple language switcher
+    function switchLang(lang) {
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-id');
+      });
+      document.documentElement.lang = lang;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      switchLang('en');
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-['Inter']">
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="w-full px-6 py-4 flex flex-col sm:flex-row items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+      <div>
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">I Putu Handryan Pratama</h1>
+        <p class="text-sm text-gray-600 mt-1" data-en="Fullstack Developer & Software Architect" data-id="Pengembang Fullstack & Arsitek Perangkat Lunak">Fullstack Developer & Software Architect</p>
+      </div>
+      <nav class="mt-4 sm:mt-0 flex items-center gap-4">
+        <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors" data-en="About" data-id="Tentang">About</a>
+        <a href="#projects" class="text-gray-600 hover:text-blue-600 transition-colors" data-en="Projects" data-id="Proyek">Projects</a>
+        <a href="#contact" class="text-gray-600 hover:text-blue-600 transition-colors" data-en="Contact" data-id="Kontak">Contact</a>
+        <div class="flex gap-2 ml-4">
+          <button onclick="switchLang('en')" class="px-3 py-1 rounded-full border border-gray-300 text-sm hover:bg-blue-50 hover:border-blue-200 transition-colors">EN</button>
+          <button onclick="switchLang('id')" class="px-3 py-1 rounded-full border border-gray-300 text-sm hover:bg-blue-50 hover:border-blue-200 transition-colors">ID</button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-6xl mx-auto px-6 py-12">
+      <!-- Hero Section -->
+      <section class="mb-20 text-center animate-fade-in">
+        <h2 class="text-5xl font-bold mb-3 pb-3 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent" data-en="Crafting Digital Excellence" data-id="Menciptakan Keunggulan Digital">Crafting Digital Excellence</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-en="Transforming complex challenges into elegant solutions through innovative fullstack development. Specializing in Laravel, Node.js, and Flutter to create scalable, efficient, and user-centric applications." data-id="Mengubah tantangan kompleks menjadi solusi elegan melalui pengembangan fullstack yang inovatif. Spesialisasi dalam Laravel, Node.js, dan Flutter untuk menciptakan aplikasi yang skalabel, efisien, dan berpusat pada pengguna."></p>
+        <div class="mt-8 flex justify-center gap-4">
+          <a href="#contact" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" data-en="Let's Connect" data-id="Mari Terhubung">Let's Connect</a>
+          <a href="#projects" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors" data-en="View Projects" data-id="Lihat Proyek">View Projects</a>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="about" class="mb-20 animate-fade-in" style="animation-delay: 0.2s">
+        <h2 class="text-3xl font-bold mb-8 text-center" data-en="Technical Expertise" data-id="Keahlian Teknis">Technical Expertise</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="skill-badge bg-white p-4 rounded-xl shadow-sm text-center">
+            <i class="fab fa-laravel text-2xl text-red-500 mb-2"></i>
+            <h3 class="font-semibold">Laravel</h3>
+            <p class="text-sm text-gray-600">Advanced</p>
+          </div>
+          <div class="skill-badge bg-white p-4 rounded-xl shadow-sm text-center">
+            <i class="fab fa-node-js text-2xl text-green-500 mb-2"></i>
+            <h3 class="font-semibold">Node.js</h3>
+            <p class="text-sm text-gray-600">Advanced</p>
+          </div>
+          <div class="skill-badge bg-white p-4 rounded-xl shadow-sm text-center">
+            <i class="fab fa-flutter text-2xl text-blue-500 mb-2"></i>
+            <h3 class="font-semibold">Flutter</h3>
+            <p class="text-sm text-gray-600">Intermediate</p>
+          </div>
+          <div class="skill-badge bg-white p-4 rounded-xl shadow-sm text-center">
+            <i class="fas fa-database text-2xl text-purple-500 mb-2"></i>
+            <h3 class="font-semibold">Database</h3>
+            <p class="text-sm text-gray-600">Advanced</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile Section -->
+      <section class="mb-20 bg-white rounded-2xl p-8 shadow-sm animate-fade-in" style="animation-delay: 0.3s">
+        <h2 class="text-3xl font-bold mb-8 text-center" data-en="Professional Profile" data-id="Profil Profesional">Professional Profile</h2>
+        <div class="grid md:grid-cols-2 gap-12">
+          <div>
+            <ul class="text-gray-700 space-y-4">
+              <li class="flex items-center gap-3">
+                <i class="fas fa-calendar text-blue-600 text-xl"></i>
+                <div>
+                  <span class="font-semibold" data-en="Date of Birth" data-id="Tanggal Lahir">Date of Birth</span>
+                  <p class="text-gray-600">September 1999</p>
+                </div>
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                <div>
+                  <span class="font-semibold" data-en="Education" data-id="Pendidikan">Education</span>
+                  <p class="text-gray-600">Information System and BIT Hons</p>
+                </div>
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-university text-blue-600 text-xl"></i>
+                <div>
+                  <span class="font-semibold" data-en="Institutions" data-id="Lembaga">Institutions</span>
+                  <p class="text-gray-600">ITB Stikom Bali, Help University Malaysia</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="space-y-4">
+            <p class="text-gray-700 leading-relaxed" data-en="With over 4 years of experience in fullstack development and 6 months in Android app development, I specialize in creating robust, scalable solutions using Laravel, Node.js, and Flutter. My expertise extends to implementing advanced features like real-time processing, secure authentication, and complex business logic optimization. I'm passionate about delivering high-performance applications that drive business growth and user satisfaction." data-id="Dengan pengalaman lebih dari 4 tahun dalam pengembangan fullstack dan 6 bulan dalam pengembangan aplikasi Android, saya mengkhususkan diri dalam menciptakan solusi yang kuat dan skalabel menggunakan Laravel, Node.js, dan Flutter. Keahlian saya meliputi implementasi fitur-fitur canggih seperti pemrosesan real-time, autentikasi yang aman, dan optimasi logika bisnis yang kompleks. Saya bersemangat dalam menghadirkan aplikasi berkinerja tinggi yang mendorong pertumbuhan bisnis dan kepuasan pengguna."></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="mb-20 animate-fade-in" style="animation-delay: 0.4s">
+        <h2 class="text-3xl font-bold mb-8 text-center" data-en="Featured Projects" data-id="Proyek Unggulan">Featured Projects</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Smart Saraswati -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Smart Saraswati</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A comprehensive cruise agency management system featuring advanced registration, job application processing, and interview management capabilities. Built with Laravel and modern web technologies." data-id="Sistem manajemen agen kapal pesiar komprehensif dengan fitur pendaftaran canggih, pemrosesan lamaran kerja, dan kemampuan manajemen wawancara. Dibangun dengan Laravel dan teknologi web modern."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Registration System</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Interview Management</span>
+            </div>
+          </div>
+
+          <!-- Omkara Booking System -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Omkara Booking System</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A sophisticated villa booking administration system featuring comprehensive scheduling and management features for Omkara's properties." data-id="Sistem administrasi pemesanan villa yang canggih dengan fitur penjadwalan dan manajemen komprehensif untuk properti Omkara."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Booking System</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Admin Dashboard</span>
+            </div>
+          </div>
+
+          <!-- ID Card Generator -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">ID Card Generator</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="An automated ID card generation system for students and teachers, featuring database integration and image processing capabilities." data-id="Sistem generasi kartu ID otomatis untuk siswa dan guru, dengan integrasi database dan kemampuan pemrosesan gambar."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Image Processing</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">PDF Generation</span>
+            </div>
+          </div>
+
+          <!-- Apotek Mitrafarma -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Apotek Mitrafarma</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A comprehensive POS and management system featuring multi-store support, stock management, and an optimized cashier interface with keyboard shortcuts." data-id="Sistem POS dan manajemen komprehensif dengan dukungan multi-toko, manajemen stok, dan antarmuka kasir yang dioptimalkan dengan shortcut keyboard."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">POS System</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Multi-store</span>
+            </div>
+          </div>
+
+          <!-- Scrim ID -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Scrim ID</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A comprehensive e-sports platform featuring tournament management, team profiles, payment integration (Xendit, Duitku, Midtrans), and a game top-up store." data-id="Platform e-sports komprehensif dengan manajemen turnamen, profil tim, integrasi pembayaran (Xendit, Duitku, Midtrans), dan toko top-up game."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Payment Gateway</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Tournament System</span>
+            </div>
+          </div>
+
+          <!-- LKP Tips -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">LKP Tips</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="An e-learning platform for English and hospitality education, featuring separate interfaces for lecturers, administrators, and students, with computer-based testing capabilities." data-id="Platform e-learning untuk pendidikan bahasa Inggris dan perhotelan, dengan antarmuka terpisah untuk dosen, administrator, dan siswa, serta kemampuan pengujian berbasis komputer."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">E-learning</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">CBT System</span>
+            </div>
+          </div>
+
+          <!-- Face Recognition Attendance -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fab fa-flutter text-blue-500 text-xl"></i>
+              <i class="fab fa-laravel text-red-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Face Recognition Attendance</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A modern SaaS attendance system utilizing face recognition technology, built with a multitenancy architecture. The frontend is developed in Flutter and the backend in Laravel, enabling multiple organizations to manage attendance securely and efficiently." data-id="Sistem absensi SaaS modern yang menggunakan teknologi pengenalan wajah, dibangun dengan arsitektur multitenancy. Frontend dikembangkan dengan Flutter dan backend dengan Laravel, memungkinkan banyak organisasi mengelola absensi secara aman dan efisien."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Flutter</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Face Recognition</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">SaaS</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Multitenancy</span>
+            </div>
+          </div>
+
+          <!-- NawAPI -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-comment-dots text-green-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">NawAPI</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A WhatsApp integration service for company projects, handling notifications, announcements, and OTP delivery." data-id="Layanan integrasi WhatsApp untuk proyek perusahaan, menangani notifikasi, pengumuman, dan pengiriman OTP."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">WhatsApp API</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Notifications</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">OTP System</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Projects Section -->
+        <h2 class="text-3xl font-bold mb-8 mt-16 text-center" data-en="Personal Projects" data-id="Proyek Pribadi">Personal Projects</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Moon Chat -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-comments text-purple-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Moon Chat</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A cross-platform chat application developed in both Java and Flutter versions, featuring Firebase integration for real-time messaging and push notifications." data-id="Aplikasi chat lintas platform yang dikembangkan dalam versi Java dan Flutter, dengan integrasi Firebase untuk pesan real-time dan notifikasi push."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Java</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Flutter</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Firebase</span>
+            </div>
+          </div>
+
+          <!-- Moon Trade Algotrading -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-robot text-yellow-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Moon Trade Algotrading</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="An advanced algorithmic trading system with backtesting capabilities, real-time strategy execution on Binance, and Telegram notifications. Features universal strategy code for both backtesting and live trading." data-id="Sistem trading algoritmik canggih dengan kemampuan backtesting, eksekusi strategi real-time di Binance, dan notifikasi Telegram. Fitur kode strategi universal untuk backtesting dan trading live."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Node.js</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Binance API</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Telegram Bot</span>
+            </div>
+          </div>
+
+          <!-- Moon Trade Backtest Engine -->
+          <div class="project-card bg-white rounded-xl p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-chart-line text-green-500 text-xl"></i>
+              <h3 class="font-bold text-xl text-blue-600">Moon Trade Backtest Engine</h3>
+            </div>
+            <p class="text-gray-600 mb-4" data-en="A sophisticated manual trading backtesting tool with dynamic Entry, TP, and SL adjustment capabilities, designed to streamline strategy development and testing." data-id="Alat backtesting trading manual yang canggih dengan kemampuan penyesuaian Entry, TP, dan SL dinamis, dirancang untuk mempercepat pengembangan dan pengujian strategi."></p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Node.js</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">React.js</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Trading Tools</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Timeline Section -->
+      <section class="mb-20 animate-fade-in" style="animation-delay: 0.5s">
+        <h2 class="text-3xl font-bold mb-8 text-center" data-en="Professional Journey" data-id="Perjalanan Profesional">Professional Journey</h2>
+        <div class="space-y-8">
+          <div class="relative pl-8 timeline-item">
+            <div class="absolute -left-2 top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+              <h3 class="font-bold text-lg mb-2" data-en="Senior Fullstack Developer" data-id="Pengembang Fullstack Senior">Senior Fullstack Developer</h3>
+              <p class="text-gray-600 mb-2">2022 - Present</p>
+              <p class="text-gray-700" data-en="Leading development of enterprise-level applications using Laravel and Node.js, implementing complex business logic and optimizing system performance." data-id="Memimpin pengembangan aplikasi tingkat perusahaan menggunakan Laravel dan Node.js, mengimplementasikan logika bisnis kompleks dan mengoptimalkan kinerja sistem."></p>
+            </div>
+          </div>
+          <div class="relative pl-8 timeline-item">
+            <div class="absolute -left-2 top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+              <h3 class="font-bold text-lg mb-2" data-en="Fullstack Developer" data-id="Pengembang Fullstack">Fullstack Developer</h3>
+              <p class="text-gray-600 mb-2">2019 - 2022</p>
+              <p class="text-gray-700" data-en="Developing and maintaining web applications using Laravel, Node.js, and Flutter, focusing on creating scalable, efficient, and user-centric solutions." data-id="Mengembangkan dan menjaga aplikasi web menggunakan Laravel, Node.js, dan Flutter, fokus pada menciptakan solusi yang skalabel, efisien, dan berpusat pada pengguna."></p>
+            </div>
+          </div>
+          <div class="relative pl-8 timeline-item">
+            <div class="absolute -left-2 top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+              <h3 class="font-bold text-lg mb-2" data-en="Android App Developer" data-id="Pengembang Aplikasi Android">Android App Developer</h3>
+              <p class="text-gray-600 mb-2">2019</p>
+              <p class="text-gray-700" data-en="Developing Android applications using Laravel framework, with filament, sanctum, livewire, and many other libraries for image, document, role, and security for web development, also have experience in NodeJS." data-id="Mengembangkan aplikasi Android menggunakan framework Laravel, dengan filament, sanctum, livewire, dan banyak library lain untuk gambar, dokumen, peran, dan keamanan dalam pengembangan web, juga berpengalaman dengan NodeJS."></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="mb-20 bg-white rounded-2xl p-8 shadow-sm animate-fade-in" style="animation-delay: 0.6s">
+        <h2 class="text-3xl font-bold mb-8 text-center" data-en="Let's Create Something Amazing" data-id="Mari Ciptakan Sesuatu yang Luar Biasa">Let's Create Something Amazing</h2>
+        <p class="text-gray-700 text-center mb-8 max-w-2xl mx-auto" data-en="Ready to discuss your next project? I'm always open to new opportunities and collaborations." data-id="Siap mendiskusikan proyek Anda berikutnya? Saya selalu terbuka untuk peluang dan kolaborasi baru."></p>
+        <div class="flex justify-center gap-8">
+          <a href="mailto:your.email@example.com" class="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors">
+            <i class="fas fa-envelope text-xl"></i>
+            <span>Email</span>
+          </a>
+          <a href="https://github.com/yourusername" class="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors">
+            <i class="fab fa-github text-xl"></i>
+            <span>GitHub</span>
+          </a>
+          <a href="https://linkedin.com/in/yourusername" class="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors">
+            <i class="fab fa-linkedin text-xl"></i>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center text-sm text-gray-500 py-8 border-t border-gray-100 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <p class="mb-4" data-en="&copy; 2024 I Putu Handryan Pratama. All rights reserved." data-id="&copy; 2024 I Putu Handryan Pratama. Hak cipta dilindungi undang-undang.">&copy; 2024 I Putu Handryan Pratama. All rights reserved.</p>
+        <div class="flex justify-center gap-4">
+          <a href="#" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
