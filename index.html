@@ -122,6 +122,18 @@
       background: unset !important;
       color: unset !important;
     }
+    .snake-overlay-canvas {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      opacity: 0.18;
+      filter: blur(0.5px);
+      transition: opacity 0.3s;
+    }
+    @media (max-width: 600px) {
+      .snake-overlay-canvas { opacity: 0.12; }
+    }
   </style>
   <script>
     // Simple language switcher
@@ -133,11 +145,95 @@
     }
     document.addEventListener('DOMContentLoaded', function() {
       switchLang('en');
+      // Animated snake overlay (ensure canvas is present and sized)
+      const canvas = document.getElementById('snake-overlay');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+        // Nokia-style snake: grid-based, square segments, right-angle movement
+        const cell = 22; // grid cell size
+        const cols = Math.floor(window.innerWidth / cell);
+        const rows = Math.floor(window.innerHeight / cell);
+        let direction = 'right';
+        let directions = ['right', 'down', 'left', 'up'];
+        let snakeLen = 14;
+        let snake = [];
+        let head = { x: Math.floor(cols / 3), y: Math.floor(rows / 2) };
+        for (let i = 0; i < snakeLen; ++i) {
+          snake.push({ x: head.x - i, y: head.y });
+        }
+        let moveInterval = 90; // ms per move
+        let lastMove = Date.now();
+        function turnAtEdge() {
+          // If head hits edge, pick a new valid direction (not reverse)
+          let valid = [];
+          if (head.x <= 0 && direction !== 'right') valid.push('right');
+          if (head.x >= cols - 1 && direction !== 'left') valid.push('left');
+          if (head.y <= 0 && direction !== 'down') valid.push('down');
+          if (head.y >= rows - 1 && direction !== 'up') valid.push('up');
+          // If not at edge, sometimes randomly turn (for animation variety)
+          if (valid.length === 0 && Math.random() < 0.08) {
+            let perp = direction === 'left' || direction === 'right' ? ['up', 'down'] : ['left', 'right'];
+            valid = perp.filter(d => {
+              let nx = head.x + (d === 'left' ? -1 : d === 'right' ? 1 : 0);
+              let ny = head.y + (d === 'up' ? -1 : d === 'down' ? 1 : 0);
+              return nx >= 0 && nx < cols && ny >= 0 && ny < rows;
+            });
+          }
+          if (valid.length > 0) {
+            direction = valid[Math.floor(Math.random() * valid.length)];
+          }
+        }
+        function moveSnake() {
+          turnAtEdge();
+          let dx = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
+          let dy = direction === 'up' ? -1 : direction === 'down' ? 1 : 0;
+          head = { x: head.x + dx, y: head.y + dy };
+          // Wrap if out of bounds (shouldn't happen, but just in case)
+          if (head.x < 0) head.x = 0;
+          if (head.x >= cols) head.x = cols - 1;
+          if (head.y < 0) head.y = 0;
+          if (head.y >= rows) head.y = rows - 1;
+          snake.unshift({ ...head });
+          while (snake.length > snakeLen) snake.pop();
+        }
+        function drawSnake() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (let i = snake.length - 1; i >= 0; --i) {
+            let seg = snake[i];
+            let px = seg.x * cell;
+            let py = seg.y * cell;
+            ctx.globalAlpha = 0.7 - i * 0.03;
+            ctx.fillStyle = i === 0 ? '#22281c' : (i < 3 ? '#bfc2a7' : '#6d6d5e');
+            ctx.fillRect(px, py, cell - 2, cell - 2);
+            // Optionally, draw a border for more retro look
+            ctx.strokeStyle = '#bfc2a7';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(px + 0.5, py + 0.5, cell - 3, cell - 3);
+          }
+          ctx.globalAlpha = 1;
+        }
+        function animate() {
+          let now = Date.now();
+          if (now - lastMove > moveInterval) {
+            moveSnake();
+            lastMove = now;
+          }
+          drawSnake();
+          requestAnimationFrame(animate);
+        }
+        animate();
+      }
     });
   </script>
 </head>
 <body class="nokia-border">
-  <div class="nokia-grid"></div>
+  <canvas id="snake-overlay" class="snake-overlay-canvas"></canvas>
   <div class="min-h-screen flex flex-col">
     <!-- Header -->
     <header class="w-full px-2 py-2 flex flex-col gap-2 items-stretch sm:flex-row sm:items-center sm:justify-between nokia-border sticky top-0 z-20 relative" style="background:var(--nokia-white); box-shadow:0 2px 0 var(--nokia-border); min-height:56px;">
@@ -332,7 +428,7 @@
             <p class="text-gray-600 mb-4" data-en="A modern SaaS attendance system utilizing face recognition technology, built with a multitenancy architecture. The frontend is developed in Flutter and the backend in Laravel, enabling multiple organizations to manage attendance securely and efficiently." data-id="Sistem absensi SaaS modern yang menggunakan teknologi pengenalan wajah, dibangun dengan arsitektur multitenancy. Frontend dikembangkan dengan Flutter dan backend dengan Laravel, memungkinkan banyak organisasi mengelola absensi secara aman dan efisien."></p>
             <div class="flex flex-wrap gap-2">
               <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Flutter</span>
-              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Laravel</span>
+              <span class="px-3 py-1 bg-blue-600 rounded-full text-sm">Laravel</span>
               <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Face Recognition</span>
               <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">SaaS</span>
               <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Multitenancy</span>
@@ -380,7 +476,7 @@
             <p class="text-gray-600 mb-4" data-en="An advanced algorithmic trading system with backtesting capabilities, real-time strategy execution on Binance, and Telegram notifications. Features universal strategy code for both backtesting and live trading." data-id="Sistem trading algoritmik canggih dengan kemampuan backtesting, eksekusi strategi real-time di Binance, dan notifikasi Telegram. Fitur kode strategi universal untuk backtesting dan trading live."></p>
             <div class="flex flex-wrap gap-2">
               <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Node.js</span>
-              <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Binance API</span>
+              <span class="px-3 py-1 bg-blue-600 rounded-full text-sm">Binance API</span>
               <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Telegram Bot</span>
             </div>
           </div>
