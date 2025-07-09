@@ -95,15 +95,11 @@
     <input id="player-name" type="text" maxlength="20" placeholder="Enter your name" required style="font-family:'Share Tech Mono',monospace;font-size:1rem;padding:0.3rem 0.7rem;border:2px solid var(--nokia-border);border-radius:0.4rem;background:var(--nokia-white);color:var(--nokia-black);margin-bottom:0.3rem;">
     <button class="nokia-btn" type="submit" style="display:inline-block;">Set Name</button>
   </form>
-  <div id="top-score" style="text-align:center;font-size:1rem;color:var(--nokia-border);margin-bottom:0.5rem;"></div>
-  <div id="leaderboard" class="nokia-border" style="max-width:400px;margin:0 auto 1rem auto;padding:0.5rem 1rem 1rem 1rem;background:var(--nokia-white);">
-    <div style="font-weight:bold;text-align:center;margin-bottom:0.3rem;color:var(--nokia-black);font-size:1.1rem;">Leaderboard</div>
-    <ol id="leaderboard-list" style="list-style:decimal inside;font-size:0.98rem;padding:0;margin:0;color:var(--nokia-black);"></ol>
-  </div>
+  <div id="top-score" style="text-align:center;font-size:1rem;color:var(--nokia-border);margin-bottom:0.5rem;">Loading...</div>
   <div style="text-align:center;font-size:0.95rem;margin-bottom:0.5rem;color:var(--nokia-border);">
     Swipe or tap on the canvas to control the snake.<br>
-    Tap top/bottom/left/right to turn, or swipe in a direction.<br>
-    Use arrow keys on desktop.
+    <!-- Tap top/bottom/left/right to turn, or swipe in a direction.<br>
+    Use arrow keys on desktop. -->
   </div>
   <div id="game-container" class="nokia-border">
     <canvas id="game" width="300" height="300"></canvas>
@@ -257,7 +253,6 @@
       nameInput.blur();
       nameForm.querySelector('button').textContent = 'Name Set';
       setTimeout(()=>{nameForm.querySelector('button').textContent='Set Name';}, 1200);
-      fetchLeaderboard();
     });
 
     // Fetch top score from SheetDB
@@ -278,35 +273,6 @@
     }
     fetchTopScore();
 
-    // Fetch leaderboard from SheetDB
-    async function fetchLeaderboard() {
-      try {
-        const res = await fetch('https://api.sheetbest.com/sheets/47569c1f-dda0-424c-a862-80500bb064a0');
-        let data = await res.json();
-        // Sort descending by score (as number)
-        data = data.filter(row => row.score && !isNaN(row.score)).sort((a, b) => parseInt(b.score, 10) - parseInt(a.score, 10));
-        data = data.slice(0, 10);
-        const list = document.getElementById('leaderboard-list');
-        list.innerHTML = '';
-        if (data && data.length) {
-          data.forEach((row, i) => {
-            const li = document.createElement('li');
-            li.textContent = `${row.name || 'Anonymous'} — ${row.score}`;
-            if (playerName && row.name === playerName) {
-              li.style.fontWeight = 'bold';
-              li.style.color = 'var(--nokia-border)';
-            }
-            list.appendChild(li);
-          });
-        } else {
-          list.innerHTML = '<li>No scores yet.</li>';
-        }
-      } catch (e) {
-        document.getElementById('leaderboard-list').innerHTML = '<li>Leaderboard unavailable.</li>';
-      }
-    }
-    fetchLeaderboard();
-
     // Store score to SheetDB if it's a new top score
     async function storeScoreIfTop() {
       if (!playerName) return;
@@ -322,7 +288,6 @@
             body: JSON.stringify({ name: playerName, score: score })
           });
           fetchTopScore();
-          fetchLeaderboard();
         } catch (e) {
           // ignore
         }
